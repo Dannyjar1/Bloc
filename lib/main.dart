@@ -3,6 +3,8 @@ import 'package:ejemplobloc/bloc/habitos/habitos_bloc.dart';
 import 'package:ejemplobloc/bloc/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
+
+
 void main() {
   runApp(MyApp());
 }
@@ -10,11 +12,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'App de Seguimiento de Hábitos',
-      home: BlocProvider(
-        create: (context) => HabitosBloc(),
-        child: HomeScreen(),
+    return BlocProvider(
+      create: (context) => HabitosBloc(),
+      child: MaterialApp(
+        title: 'App de Seguimiento de Hábitos',
+        home: HomeScreen(),
       ),
     );
   }
