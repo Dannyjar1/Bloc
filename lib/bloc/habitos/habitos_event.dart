@@ -17,3 +17,7 @@ class AddHabito extends HabitosEvent {
   AddHabito(this.habito);
 }
 
+class DeleteHabito extends HabitosEvent {
+  final String habitoId;
+  DeleteHabito(this.habitoId);
+}

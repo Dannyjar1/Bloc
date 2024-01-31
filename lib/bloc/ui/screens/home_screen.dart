@@ -21,15 +21,28 @@ class HomeScreen extends StatelessWidget {
             if (state is HabitosInitial) {
               return Text('No hay hábitos aún.');
             } else if (state is HabitosLoaded) {
+              // return ListView.builder(
+              //   itemCount: state.habitos.length,
+              //   itemBuilder: (context, index) {
+              //     return ListTile(
+              //       title: Text(state.habitos[index].nombre),
+              //       subtitle: Text(state.habitos[index].descripcion),
+              //     );
+              //   },
+              // );
+
               return ListView.builder(
-                itemCount: state.habitos.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(state.habitos[index].nombre),
-                    subtitle: Text(state.habitos[index].descripcion),
-                  );
-                },
-              );
+  itemCount: state.habitos.length,
+  itemBuilder: (context, index) {
+    final habito = state.habitos[index];
+    return ListTile(
+      title: Text(habito.nombre),
+      subtitle: Text(habito.descripcion),
+      onTap: () => _showDeleteDialog(context, habito.id),
+    );
+  },
+);
+              
             } else {
               return CircularProgressIndicator();
             }
@@ -91,3 +104,27 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+void _showDeleteDialog(BuildContext context, String habitoId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Eliminar Hábito'),
+        content: Text('¿Estás seguro de que quieres eliminar este hábito?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancelar'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: Text('Eliminar'),
+            onPressed: () {
+              context.read<HabitosBloc>().add(DeleteHabito(habitoId));
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
